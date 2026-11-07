@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JURIO — Huquqlarni o‘rganish sarguzashti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#08152e;
+  color:white;
+  min-height:100vh;
+}
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 7%;background:#0c1d3b;
+}
+.logo{font-size:30px;font-weight:900;color:#f5cc69;letter-spacing:2px}
+nav a{color:#e6edff;text-decoration:none;margin-left:25px;font-size:14px}
+.hero{
+  min-height:580px;padding:75px 8%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:35px;flex-wrap:wrap;
+  background:radial-gradient(circle at 75% 40%,#23477b,#0b1935 55%);
+}
+.content{max-width:560px}
+.tag{
+  color:#f5cc69;font-weight:bold;letter-spacing:2px;
+  margin-bottom:22px;font-size:13px
+}
+h1{font-size:clamp(38px,6vw,64px);line-height:1.12;margin-bottom:22px}
+h1 span{color:#f5cc69}
+.description{font-size:18px;line-height:1.7;color:#d2def5;margin-bottom:30px}
+.button{
+  display:inline-block;background:linear-gradient(135deg,#ffe49b,#d7a83e);
+  color:#102344;text-decoration:none;padding:16px 27px;
+  border-radius:13px;font-weight:bold;
+  box-shadow:0 8px 25px #d7a83e33;
+}
+.owl{
+  width:260px;height:260px;border-radius:50%;
+  background:linear-gradient(145deg,#f7d98a,#b98229);
+  display:flex;align-items:center;justify-content:center;
+  font-size:145px;
+  box-shadow:0 20px 60px #0008, inset -12px -12px 25px #8b5d1d55;
+  margin:auto;
+}
+.features{
+  padding:55px 8%;background:#0c1d3b;
+}
+.features h2{text-align:center;font-size:30px;margin-bottom:35px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.card{
+  background:#142b50;border:1px solid #29466d;
+  padding:25px;border-radius:18px;
+}
+.card .icon{font-size:35px;margin-bottom:15px}
+.card h3{color:#f5cc69;margin-bottom:10px}
+.card p{color:#c7d5ed;line-height:1.6;font-size:14px}
+footer{text-align:center;padding:25px;color:#9eafd0;font-size:13px}
+@media(max-width:600px){
+  header{padding:18px 5%}
+  nav a{margin-left:10px;font-size:12px}
+  .hero{text-align:center;padding:55px 6%}
+  .owl{width:210px;height:210px;font-size:115px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">JURIO.</div>
+  <nav>
+    <a href="#features">Darslar</a>
+    <a href="#about">Biz haqimizda</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="about">
+  <div class="content">
+    <div class="tag">SMART LEGAL EDUCATION FOR CHILDREN</div>
+    <h1>Huquqlaringni bil.<br><span>Kelajagingni yarat!</span></h1>
+    <p class="description">
+      JURIO — bolalar uchun huquqiy bilimlarni
+      3D multfilmlar, qiziqarli voqealar va interaktiv
+      topshiriqlar orqali o‘rgatuvchi zamonaviy platforma.
+    </p>
+    <a class="button" href="#features">Sarguzashtni boshlash →</a>
+  </div>
+  <div class="owl" aria-label="JURIO boyo‘g‘li">🦉</div>
+</section>
+
+<section class="features" id="features">
+  <h2>JURIO olamida seni nimalar kutmoqda?</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🎬</div>
+      <h3>3D multfilmlar</h3>
+      <p>Huquqiy voqealarni qahramonlar bilan tomosha qil va tushun.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎮</div>
+      <h3>Interaktiv vaziyatlar</h3>
+      <p>Turli vaziyatlarda qaror qabul qilib, bilimlaringni sinab ko‘r.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🧠</div>
+      <h3>Bilim sinovi</h3>
+      <p>O‘rganganlaringni qiziqarli savollar orqali tekshir.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🦉</div>
+      <h3>Aqlli boyo‘g‘li</h3>
+      <p>JURIO qahramoni senga huquqlaringni tushunishga yordam beradi.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  JURIO © 2026 · Know Your Rights. Shape Your Future.
+</footer>
+
+</body>
+</html>
