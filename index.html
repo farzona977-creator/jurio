@@ -509,5 +509,278 @@ function resetQuiz(){
 }
 showQuestions();
 </script>
+
+<section id="jurio-lesson" style="max-width:850px;margin:45px auto;padding:25px;background:#102b49;border:2px solid #f5c669;border-radius:22px;color:white;font-family:Arial;">
+  <h2 style="color:#f5c669;">🦉 1-dars: Bola huquqlari</h2>
+  <p>Aqlli boyo‘g‘li bilan o‘z huquqlaringni o‘rgan!</p>
+
+  <div id="lesson-story" style="background:#1b3e5b;padding:20px;border-radius:15px;">
+    <h3 style="color:#f5c669;">🎬 Hikoya: Azizning orzusi</h3>
+    <p>Aziz maktabda yangi narsalarni o‘rganishni, do‘stlari bilan o‘ynashni va o‘z fikrini bildirishni yaxshi ko‘radi.</p>
+    <p>Bir kuni u boyo‘g‘lidan so‘radi: “Men ham huquqlarga egamanmi?”</p>
+    <p>🦉 Boyo‘g‘li javob berdi: “Albatta! Har bir bola o‘z huquqlariga ega.”</p>
+    <button onclick="lessonStep(1)" style="background:#f5c669;padding:12px 20px;border:0;border-radius:10px;font-weight:bold;">Keyingi bosqich →</button>
+  </div>
+
+  <div id="lesson-stage" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+    <h3 style="color:#f5c669;">📚 Huquqlaringni bil!</h3>
+    <p>1. Ta’lim olish huquqi.</p>
+    <p>2. Dam olish va o‘ynash huquqi.</p>
+    <p>3. O‘z fikrini bildirish huquqi.</p>
+    <p>4. Himoya va g‘amxo‘rlik olish huquqi.</p>
+    <p>5. Kamsitilmaslik va teng munosabat ko‘rish huquqi.</p>
+    <button onclick="lessonStep(2)" style="background:#f5c669;padding:12px 20px;border:0;border-radius:10px;font-weight:bold;">Topshiriqqa o‘tish →</button>
+  </div>
+
+  <div id="lesson-task" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+    <h3 style="color:#f5c669;">🎯 Vaziyatli topshiriq</h3>
+    <p>Sinfdoshingiz sizni o‘yinga qo‘shmayapti va fikringizni tinglamayapti. Nima qilasiz?</p>
+    <button onclick="lessonAnswer(0)" style="display:block;margin:10px 0;padding:12px;border-radius:8px;">A. Hech kimga aytmayman</button>
+    <button onclick="lessonAnswer(1)" style="display:block;margin:10px 0;padding:12px;border-radius:8px;">B. Ishonchli o‘qituvchi yoki kattadan yordam so‘rayman</button>
+    <button onclick="lessonAnswer(0)" style="display:block;margin:10px 0;padding:12px;border-radius:8px;">C. Men ham boshqalarni kamsitaman</button>
+    <p id="lesson-feedback"></p>
+    <button id="lesson-quiz-button" onclick="lessonStep(3)" style="display:none;background:#f5c669;padding:12px 20px;border:0;border-radius:10px;font-weight:bold;">Yakuniy test →</button>
+  </div>
+
+  <div id="lesson-quiz" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+    <h3 style="color:#f5c669;">📝 Yakuniy test</h3>
+    <div id="lesson-question"></div>
+    <button onclick="lessonCheck()" style="background:#f5c669;padding:12px 20px;border:0;border-radius:10px;font-weight:bold;">Javobni tekshirish</button>
+    <p id="lesson-result"></p>
+  </div>
+</section>
+
+<script>
+const lessonQuestions = [
+ {q:"Kimlar bola huquqlariga ega?",a:["Faqat a’lochi bolalar","Barcha bolalar","Faqat katta yoshdagilar"],c:1},
+ {q:"Bola ta’lim olish huquqiga egami?",a:["Ha","Yo‘q","Faqat ayrim bolalar"],c:0},
+ {q:"Bola o‘z fikrini bildira oladimi?",a:["Ha","Yo‘q","Faqat uyda"],c:0},
+ {q:"Bola dam olish huquqiga egami?",a:["Yo‘q","Ha","Faqat ta’tilda"],c:1},
+ {q:"Huquqingiz buzilsa nima qilasiz?",a:["Ishonchli kattadan yordam so‘rayman","Hech kimga aytmayman","Boshqalarga zarar yetkazaman"],c:0}
+];
+let lessonIndex=0,lessonScore=0,lessonSelected=-1,lessonAnswered=false;
+
+function lessonStep(n){
+ ["lesson-story","lesson-stage","lesson-task","lesson-quiz"].forEach((id,i)=>{
+ document.getElementById(id).style.display=i===n?"block":"none";
+ });
+ if(n===3) lessonShowQuestion();
+}
+function lessonAnswer(v){
+ const f=document.getElementById("lesson-feedback");
+ if(v===1){
+ f.textContent="✅ To‘g‘ri! Ishonchli kattadan yordam so‘rash yaxshi qaror.";
+ }else{
+ f.textContent="❗ Bunday vaziyatda ishonchli kattadan yordam so‘rash kerak.";
+ }
+ document.getElementById("lesson-quiz-button").style.display="inline-block";
+}
+function lessonShowQuestion(){
+ const q=lessonQuestions[lessonIndex];
+ lessonSelected=-1;lessonAnswered=false;
+ document.getElementById("lesson-result").textContent="";
+ document.getElementById("lesson-question").innerHTML=
+ "<h3>"+(lessonIndex+1)+". "+q.q+"</h3>"+
+ q.a.map((a,i)=>'<label style="display:block;padding:9px;"><input type="radio" name="jurio-answer" value="'+i+'"> '+a+'</label>').join("");
+}
+function lessonCheck(){
+ if(lessonAnswered)return;
+ const selected=document.querySelector('input[name="jurio-answer"]:checked');
+ if(!selected){
+ document.getElementById("lesson-result").textContent="Avval javobni tanlang!";
+ return;
+ }
+ lessonAnswered=true;
+ const q=lessonQuestions[lessonIndex];
+ if(Number(selected.value)===q.c)lessonScore++;
+ if(lessonIndex<lessonQuestions.length-1){
+ document.getElementById("lesson-result").textContent=
+ (Number(selected.value)===q.c?"✅ To‘g‘ri!":"❌ Bu javob to‘g‘ri emas.")+
+ " Keyingi savolga o‘ting.";
+ const b=document.createElement("button");
+ b.textContent="Keyingi savol →";
+ b.style="background:#f5c669;padding:12px;border:0;border-radius:10px;margin-top:10px;";
+ b.onclick=()=>{lessonIndex++;lessonShowQuestion();b.remove();};
+ document.getElementById("lesson-result").after(b);
+ }else{
+ document.getElementById("lesson-question").innerHTML="";
+ document.getElementById("lesson-result").innerHTML=
+ "🎉 Natijangiz: "+lessonScore+"/5. Dars yakunlandi! "+
+ '<button onclick="lessonRestart()" style="background:#f5c669;padding:10px;border:0;border-radius:8px;">Qayta boshlash</button>';
+ }
+}
+function lessonRestart(){
+ lessonIndex=0;lessonScore=0;lessonStep(0);
+}
+</script>
+
+<section id="jurio-boundaries" style="max-width:850px;margin:35px auto;padding:25px;background:#102b49;border:2px solid #f5c669;border-radius:22px;color:white;font-family:Arial;">
+<h2 style="color:#f5c669;">🦉 2-dars: Mening shaxsiy chegaralarim</h2>
+<p>Shaxsiy hudud, rozilik va o‘z fikringni hurmat bilan bildirishni o‘rgan!</p>
+
+<div style="background:#1b3e5b;padding:20px;border-radius:15px;">
+<h3 style="color:#f5c669;">🎬 Hikoya: Madinaning qarori</h3>
+<p>Madina dugonasi bilan suhbatlashayotgan edi. Dugonasi uning daftarini ruxsatsiz olmoqchi bo‘ldi.</p>
+<p>Madina: “Iltimos, avval mendan ruxsat so‘ra. Bu mening shaxsiy buyumim”, dedi.</p>
+<p>🦉 Boyo‘g‘li: “O‘z chegaralaringni muloyimlik bilan bildirishga haqqing bor!”</p>
+<button onclick="boundaryShow(1)" style="background:#f5c669;padding:12px;border:0;border-radius:10px;font-weight:bold;">Davom etish →</button>
+</div>
+
+<div id="boundary-stage" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+<h3 style="color:#f5c669;">📚 Nimalarni bilish kerak?</h3>
+<p>• Shaxsiy buyumlaringni himoya qilish.</p>
+<p>• O‘zingni noqulay his qilgan vaziyatni aytish.</p>
+<p>• Boshqalarning shaxsiy hududini hurmat qilish.</p>
+<p>• Kerak bo‘lsa, ishonchli kattadan yordam so‘rash.</p>
+<button onclick="boundaryShow(2)" style="background:#f5c669;padding:12px;border:0;border-radius:10px;">Topshiriq →</button>
+</div>
+
+<div id="boundary-task" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+<h3 style="color:#f5c669;">🎯 Vaziyatli topshiriq</h3>
+<p>Do‘stingiz sizning narsangizni ruxsatsiz olmoqchi. Nima deysiz?</p>
+<button onclick="boundaryAnswer(0)" style="display:block;margin:10px 0;padding:12px;">A. Indamayman</button>
+<button onclick="boundaryAnswer(1)" style="display:block;margin:10px 0;padding:12px;">B. Avval mendan ruxsat so‘ra, deyman</button>
+<button onclick="boundaryAnswer(0)" style="display:block;margin:10px 0;padding:12px;">C. Men ham uning narsasini olaman</button>
+<p id="boundary-feedback"></p>
+<button id="boundary-next" onclick="boundaryShow(3)" style="display:none;background:#f5c669;padding:12px;border:0;border-radius:10px;">Testni boshlash →</button>
+</div>
+
+<div id="boundary-quiz" style="display:none;background:#1b3e5b;padding:20px;border-radius:15px;margin-top:15px;">
+<h3 style="color:#f5c669;">📝 Yakuniy test</h3>
+<div id="boundary-question"></div>
+<button onclick="boundaryCheck()" style="background:#f5c669;padding:12px;border:0;border-radius:10px;">Tekshirish</button>
+<p id="boundary-result"></p>
+</div>
+</section>
+<section id="internet-lesson" style="max-width:850px;margin:45px auto;padding:25px;background:#102b50;border:1px solid #f5c669;border-radius:20px;">
+  <h2 style="color:#f5c669;">🦉 3-dars: Internetda xavfsizlik</h2>
+  <p>Internetdan xavfsiz foydalanishni Aqlli boyo‘g‘li bilan o‘rgan!</p>
+
+  <div style="background:#1b3e5b;padding:20px;border-radius:15px;">
+    <h3 style="color:#f5c669;">🎬 Hikoya: Noma’lum xabar</h3>
+    <p>Bir kuni Dilshodga internet orqali notanish odam xabar yozdi. U Dilshoddan shaxsiy ma’lumotlarini so‘radi.</p>
+    <p>🦉 Boyo‘g‘li maslahat berdi: «Shaxsiy ma’lumotlaringni begonalarga yuborma. Ishonchli kattalardan yordam so‘ra!»</p>
+  </div>
+
+  <div id="internet-quiz" style="background:#1b3e5b;padding:20px;margin-top:20px;border-radius:15px;">
+    <h3 style="color:#f5c669;">📝 Bilimingni sinab ko‘r!</h3>
+    <div id="internet-question"></div>
+    <p id="internet-feedback"></p>
+    <button id="internet-check" onclick="internetCheck()" style="background:#f5c669;padding:12px 20px;border:0;border-radius:10px;">Javobni tekshirish</button>
+    <div id="internet-result"></div>
+  </div>
+</section>
+
+<script>
+const internetQuestions=[
+{q:"Notanish odam internetda telefon raqamingni so‘rasa, nima qilasan?",a:["Darhol yuboraman","Yubormayman va ishonchli kattaga aytaman","Hamma ma’lumotimni beraman"],c:1},
+{q:"Parolni kim bilan bo‘lishish kerak?",a:["Internetdagi notanishlar bilan","Hamma bilan","Hech kim bilan, zarur bo‘lsa ota-onam bilan maslahatlashaman"],c:2},
+{q:"Shubhali havola kelsa, nima qilasan?",a:["Darhol bosaman","Bosmayman, ishonchli kattaga ko‘rsataman","Do‘stlarimga yuboraman"],c:1},
+{q:"Internetda kimdir seni bezovta qilsa, nima qilasan?",a:["Indamayman","Ishonchli kattaga aytaman va yordam so‘rayman","U bilan tortishaman"],c:1},
+{q:"Boshqa bolaning suratini ruxsatsiz tarqatish mumkinmi?",a:["Ha, mumkin","Faqat do‘stlarga","Yo‘q, avval uning roziligini olish kerak"],c:2}
+];
+
+let internetIndex=0;
+let internetScore=0;
+let internetLocked=false;
+
+function internetShow(){
+ internetLocked=false;
+ document.getElementById("internet-feedback").textContent="";
+ document.getElementById("internet-result").textContent="";
+ document.getElementById("internet-check").style.display="inline-block";
+ const q=internetQuestions[internetIndex];
+ document.getElementById("internet-question").innerHTML=
+ "<h3>"+(internetIndex+1)+". "+q.q+"</h3>"+
+ q.a.map((a,i)=>'<label style="display:block;padding:10px;"><input type="radio" name="internet-answer" value="'+i+'"> '+a+'</label>').join("");
+}
+
+function internetCheck(){
+ if(internetLocked)return;
+ const s=document.querySelector('input[name="internet-answer"]:checked');
+ if(!s){
+ document.getElementById("internet-feedback").textContent="Avval javob tanlang!";
+ return;
+ }
+ internetLocked=true;
+ const q=internetQuestions[internetIndex];
+ const correct=Number(s.value)===q.c;
+ if(correct)internetScore++;
+ document.getElementById("internet-feedback").textContent=
+ correct?"✅ To‘g‘ri javob!":"❌ To‘g‘ri javob: "+q.a[q.c];
+ if(internetIndex<internetQuestions.length-1){
+ const b=document.createElement("button");
+ b.textContent="Keyingi savol →";
+ b.style="background:#f5c669;padding:12px;border:0;border-radius:10px;";
+ b.onclick=()=>{internetIndex++;internetShow();};
+ document.getElementById("internet-result").appendChild(b);
+ }else{
+ document.getElementById("internet-check").style.display="none";
+ document.getElementById("internet-result").innerHTML=
+ "<h2 style='color:#f5c669;'>🎉 Natijangiz: "+internetScore+"/5</h2>"+
+ "<button onclick='internetRestart()' style='background:#f5c669;padding:12px;border:0;border-radius:10px;'>Qayta boshlash</button>";
+ }
+}
+
+function internetRestart(){
+ internetIndex=0;
+ internetScore=0;
+ internetShow();
+}
+internetShow();
+</script>
+<script>
+const boundaryQuestions=[
+{q:"Shaxsiy chegaralar nimani anglatadi?",a:["Faqat uy qoidalarini","Shaxsiy hudud va hurmatni","Faqat maktab tartibini"],c:1},
+{q:"Birovning buyumini olishdan oldin nima qilish kerak?",a:["Ruxsat so‘rash","Yashirincha olish","So‘ramaslik"],c:0},
+{q:"Noqulay vaziyatda nima qilish mumkin?",a:["Jim turish shart","Ishonchli kattaga aytish","Vaziyatni yashirish"],c:1},
+{q:"Boshqalarning chegaralariga qanday munosabatda bo‘lish kerak?",a:["Hurmat bilan","E’tiborsiz","Masxara qilib"],c:0},
+{q:"Rozilik nima?",a:["Majburlash","Erkin va ixtiyoriy ruxsat","Jim turish"],c:1}
+];
+let boundaryIndex=0,boundaryScore=0,boundaryLocked=false;
+
+function boundaryShow(n){
+["","boundary-stage","boundary-task","boundary-quiz"].forEach((id,i)=>{
+if(id)document.getElementById(id).style.display=i===n?"block":"none";
+});
+if(n===3)boundaryQuestion();
+}
+function boundaryAnswer(v){
+document.getElementById("boundary-feedback").textContent=
+v===1?"✅ To‘g‘ri! Shaxsiy chegarangizni muloyim bildiring.":"❗ Buyum haqida muloyim gapirib, ruxsat so‘rashni tushuntiring.";
+document.getElementById("boundary-next").style.display="inline-block";
+}
+function boundaryQuestion(){
+boundaryLocked=false;
+let q=boundaryQuestions[boundaryIndex];
+document.getElementById("boundary-result").textContent="";
+document.getElementById("boundary-question").innerHTML=
+"<h3>"+(boundaryIndex+1)+". "+q.q+"</h3>"+
+q.a.map((a,i)=>'<label style="display:block;padding:10px;"><input type="radio" name="boundary-answer" value="'+i+'"> '+a+'</label>').join("");
+}
+function boundaryCheck(){
+if(boundaryLocked)return;
+let s=document.querySelector('input[name="boundary-answer"]:checked');
+if(!s){document.getElementById("boundary-result").textContent="Avval javob tanlang!";return;}
+boundaryLocked=true;
+if(Number(s.value)===boundaryQuestions[boundaryIndex].c)boundaryScore++;
+if(boundaryIndex<4){
+document.getElementById("boundary-result").textContent=
+(Number(s.value)===boundaryQuestions[boundaryIndex].c?"✅ To‘g‘ri!":"❌ To‘g‘ri javob boshqa.")+" Keyingi savolga o‘ting.";
+let b=document.createElement("button");
+b.textContent="Keyingi savol →";
+b.style="background:#f5c669;padding:10px;border:0;border-radius:8px;";
+b.onclick=()=>{boundaryIndex++;boundaryQuestion();b.remove();};
+document.getElementById("boundary-result").after(b);
+}else{
+document.getElementById("boundary-question").innerHTML="";
+document.getElementById("boundary-result").innerHTML=
+"🎉 Natijangiz: "+boundaryScore+"/5. "+
+'<button onclick="boundaryRestart()" style="background:#f5c669;padding:10px;border:0;border-radius:8px;">Qayta boshlash</button>';
+}
+}
+function boundaryRestart(){boundaryIndex=0;boundaryScore=0;boundaryShow(0);}
+</script>
+
 </body>
 </html>
