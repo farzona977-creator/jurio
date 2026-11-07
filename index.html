@@ -443,5 +443,71 @@ showQuiz();
   font-weight: bold;
 }
 </style>
+<section id="jurio-quiz" style="max-width:850px;margin:45px auto;padding:25px;background:#102b4b;border:1px solid #f5c669;border-radius:20px;color:white;">
+  <h2 style="color:#f5c669;text-align:center;">🦉 JURIO — Bilimingizni sinang!</h2>
+  <p style="text-align:center;">Bola huquqlari bo‘yicha 10 ta savol</p>
+  <div id="quiz-questions"></div>
+  <button onclick="checkQuiz()" style="background:#f5c669;color:#102448;padding:13px 22px;border:0;border-radius:10px;font-weight:bold;margin-top:20px;">
+    Natijani tekshirish
+  </button>
+  <div id="quiz-result" style="margin-top:20px;font-size:18px;"></div>
+  <button onclick="resetQuiz()" style="background:#fff;color:#102448;padding:10px 18px;border:0;border-radius:10px;margin-top:12px;">
+    Qayta ishlash
+  </button>
+</section>
+
+<script>
+const questions = [
+ {q:"1. Bola huquqlari kimlarga tegishli?",a:["Faqat a’lochi bolalarga","Barcha bolalarga","Faqat katta yoshdagilarga"],c:1,e:"Barcha bolalar teng huquqlarga ega."},
+ {q:"2. Har bir bolaning ta’lim olish huquqi bormi?",a:["Ha","Yo‘q","Faqat ayrim bolalarda"],c:0,e:"Ta’lim olish — bolaning muhim huquqlaridan biri."},
+ {q:"3. Bola o‘z fikrini bildira oladimi?",a:["Yo‘q","Faqat uyda","Ha, o‘ziga tegishli masalalarda"],c:2,e:"Bolaning fikri tinglanishi va yoshiga mos hisobga olinishi kerak."},
+ {q:"4. Maktabda sizni kamsitishsa nima qilasiz?",a:["Ishonchli kattaga yoki o‘qituvchiga aytaman","Hech kimga aytmayman","Boshqalardan o‘ch olaman"],c:0,e:"Ishonchli kattadan yordam so‘rash to‘g‘ri yo‘l."},
+ {q:"5. Internetda shaxsiy ma’lumotlarni tarqatish xavfsizmi?",a:["Har doim xavfsiz","Yo‘q, ehtiyot bo‘lish kerak","Hamma bilan bo‘lishish kerak"],c:1,e:"Shaxsiy ma’lumotlarni himoya qilish muhim."},
+ {q:"6. Bolaning dam olish huquqi bormi?",a:["Ha","Yo‘q","Faqat dam olish kunlari"],c:0,e:"Har bir bolaning dam olish va bo‘sh vaqtga ega bo‘lish huquqi bor."},
+ {q:"7. Notanish kishi internetda sizdan manzilingizni so‘rasa nima qilasiz?",a:["Darhol yuboraman","Unga telefon raqamimni ham beraman","Ma’lumot bermay, ishonchli kattaga aytaman"],c:2,e:"Notanishlarga shaxsiy ma’lumotlarni bermang."},
+ {q:"8. Bolalar huquqlarda tengmi?",a:["Faqat boy bolalar teng","Ha, kamsitish mumkin emas","Faqat katta yoshdagilar teng"],c:1,e:"Barcha bolalar teng huquqlarga ega."},
+ {q:"9. Huquqingiz buzilsa kimdan yordam so‘rashingiz mumkin?",a:["Ota-ona, o‘qituvchi yoki ishonchli kattadan","Hech kimdan","Faqat internetdagi notanishlardan"],c:0,e:"Ishonchli kattalar sizga yordam berishi mumkin."},
+ {q:"10. O‘z huquqlarimiz bilan birga nimani hurmat qilishimiz kerak?",a:["Faqat o‘z istaklarimizni","Boshqalarning huquqlarini ham","Hech kimning fikrini emas"],c:1,e:"O‘z huquqlarimiz kabi boshqalarning huquqlarini ham hurmat qilamiz."}
+];
+
+function showQuestions(){
+ const area=document.getElementById("quiz-questions");
+ area.innerHTML="";
+ questions.forEach((q,i)=>{
+  let html=`<div style="background:#1b345b;padding:17px;margin:15px 0;border-radius:13px;">
+  <h3 style="color:#f5c669;">${q.q}</h3>`;
+  q.a.forEach((a,j)=>{
+   html+=`<label style="display:block;padding:8px;cursor:pointer;">
+   <input type="radio" name="q${i}" value="${j}"> ${a}</label>`;
+  });
+  html+="</div>";
+  area.innerHTML+=html;
+ });
+}
+function checkQuiz(){
+ let score=0,answered=0,details="";
+ questions.forEach((q,i)=>{
+  const selected=document.querySelector('input[name="q'+i+'"]:checked');
+  if(selected){
+   answered++;
+   if(Number(selected.value)===q.c)score++;
+   details+=`<p>${q.q}<br>${Number(selected.value)===q.c?"✅ To‘g‘ri":"❌ Noto‘g‘ri"} — ${q.e}</p>`;
+  }else{
+   details+=`<p>${q.q}<br>⚠️ Javob tanlanmagan. ${q.e}</p>`;
+  }
+ });
+ if(answered<10){
+  document.getElementById("quiz-result").innerHTML="Avval barcha 10 savolga javob bering.";
+  return;
+ }
+ document.getElementById("quiz-result").innerHTML=
+ `<h2 style="color:#f5c669;">Natijangiz: ${score}/10</h2>${details}`;
+}
+function resetQuiz(){
+ showQuestions();
+ document.getElementById("quiz-result").innerHTML="";
+}
+showQuestions();
+</script>
 </body>
 </html>
