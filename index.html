@@ -209,6 +209,181 @@ footer{
 <footer>
   JURIO © 2026 · Know Your Rights. Shape Your Future.
 </footer>
+  
+<section id="test" class="quiz-section">
+  <h2>🦉 Aqlli boyo‘g‘li bilan bilimlaringni sinab ko‘r!</h2>
+  <p>10 ta savolga javob ber va huquqiy bilimlaringni tekshir.</p>
+
+  <div id="quiz-container"></div>
+
+  <button id="check-quiz" type="button">Javoblarni tekshirish</button>
+  <button id="retry-quiz" type="button" style="display:none">Qayta boshlash</button>
+  <div id="quiz-result" aria-live="polite"></div>
+</section>
+
+<style>
+.quiz-section {
+  background: #102b45;
+  color: white;
+  padding: 30px 20px;
+  margin: 30px auto;
+  border: 1px solid #d6ad55;
+  border-radius: 18px;
+  max-width: 900px;
+}
+.quiz-section h2 { color: #f5c669; }
+.quiz-question {
+  background: #1b3b57;
+  padding: 18px;
+  margin: 16px 0;
+  border-radius: 12px;
+}
+.quiz-question label {
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.quiz-question input { margin-right: 8px; }
+.quiz-explanation { color: #f5c669; margin-top: 10px; }
+#check-quiz, #retry-quiz {
+  background: #f5c669;
+  color: #102448;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 8px 5px 8px 0;
+  font-weight: bold;
+}
+#quiz-result { margin-top: 20px; font-weight: bold; }
+</style>
+
+<script>
+const questions = [
+  {
+    q: "Bola huquqlariga kimlar ega?",
+    a: ["Faqat katta yoshdagilar", "Barcha bolalar", "Faqat o‘quvchilar"],
+    correct: 1,
+    why: "Har bir bola huquqlarga ega."
+  },
+  {
+    q: "Har bir bolaning ta’lim olish huquqi bormi?",
+    a: ["Ha", "Yo‘q", "Faqat ayrim bolalarda"],
+    correct: 0,
+    why: "Ta’lim olish — bolaning muhim huquqlaridan biri."
+  },
+  {
+    q: "Bola o‘z fikrini bildirish huquqiga egami?",
+    a: ["Yo‘q", "Faqat uyda", "Ha, o‘ziga tegishli masalalarda"],
+    correct: 2,
+    why: "Bolaning fikri uni qiziqtiradigan masalalarda tinglanishi kerak."
+  },
+  {
+    q: "Maktabda kimdir seni kamsitsa, nima qilishing kerak?",
+    a: ["Hech kimga aytmaslik", "Ishonchli o‘qituvchi yoki kattaga aytish", "Janjallashish"],
+    correct: 1,
+    why: "Ishonchli kattadan yordam so‘rash to‘g‘ri yo‘l."
+  },
+  {
+    q: "Internetda shaxsiy ma’lumotlarni qanday saqlash kerak?",
+    a: ["Hammaga yuborish", "Ochiq joyga yozish", "Ruxsatsiz tarqatmaslik"],
+    correct: 2,
+    why: "Shaxsiy ma’lumotlarni himoya qilish muhim."
+  },
+  {
+    q: "Bolaning dam olish huquqi bormi?",
+    a: ["Ha", "Yo‘q", "Faqat dam olish kunlari"],
+    correct: 0,
+    why: "Bolalar dam olish va bo‘sh vaqtga ega bo‘lish huquqiga ega."
+  },
+  {
+    q: "Notanish odam internetda shaxsiy ma’lumot so‘rasa, nima qilasan?",
+    a: ["Darhol yuboraman", "Javob bermay, ishonchli kattaga aytaman", "Manzilimni yuboraman"],
+    correct: 1,
+    why: "Shaxsiy ma’lumotlarni notanishlarga bermaslik kerak."
+  },
+  {
+    q: "Barcha bolalar huquqlar borasida tengmi?",
+    a: ["Faqat boy bolalar teng", "Yo‘q", "Ha, kamsitish mumkin emas"],
+    correct: 2,
+    why: "Har bir bola teng huquqlarga ega."
+  },
+  {
+    q: "Huquqlaring buzilsa, kimdan yordam so‘rashing mumkin?",
+    a: ["Ota-ona, o‘qituvchi yoki ishonchli kattadan", "Hech kimdan", "Faqat internetdan"],
+    correct: 0,
+    why: "Ishonchli kattalar yordam berishi mumkin."
+  },
+  {
+    q: "O‘z huquqlaringdan foydalanayotganda nimani unutmaslik kerak?",
+    a: ["Faqat o‘zimni o‘ylashni", "Boshqalarning huquqlarini ham hurmat qilishni", "Qoidalarni buzishni"],
+    correct: 1,
+    why: "O‘z huquqlarimiz bilan birga boshqalarning huquqlarini ham hurmat qilamiz."
+  }
+];
+
+const quizContainer = document.getElementById("quiz-container");
+const result = document.getElementById("quiz-result");
+const checkButton = document.getElementById("check-quiz");
+const retryButton = document.getElementById("retry-quiz");
+
+function showQuiz() {
+  quizContainer.innerHTML = questions.map((item, index) => `
+    <div class="quiz-question">
+      <h3>${index + 1}. ${item.q}</h3>
+      ${item.a.map((answer, i) => `
+        <label>
+          <input type="radio" name="question-${index}" value="${i}">
+          ${answer}
+        </label>
+      `).join("")}
+      <div class="quiz-explanation" id="explanation-${index}"></div>
+    </div>
+  `).join("");
+
+  result.textContent = "";
+  checkButton.style.display = "inline-block";
+  retryButton.style.display = "none";
+}
+
+checkButton.addEventListener("click", () => {
+  let score = 0;
+  let unanswered = 0;
+
+  questions.forEach((item, index) => {
+    const selected = document.querySelector(
+      `input[name="question-${index}"]:checked`
+    );
+
+    if (!selected) unanswered++;
+    else if (Number(selected.value) === item.correct) score++;
+
+    document.getElementById(`explanation-${index}`).textContent =
+      (selected && Number(selected.value) === item.correct
+        ? "✓ To‘g‘ri! "
+        : "✗ To‘g‘ri javob: " + item.a[item.correct] + ". ") + item.why;
+  });
+
+  if (unanswered > 0) {
+    result.textContent = `Hali ${unanswered} ta savol javobsiz qoldi. Natija: ${score}/10`;
+  } else {
+    result.textContent = `🎉 Natijang: ${score}/10. ${
+      score >= 8 ? "Ajoyib! Sen huquqlaringni yaxshi bilasan!" :
+      score >= 5 ? "Yaxshi! Yana mashq qil!" :
+      "Harakat qil! Bilimlaringni yana mustahkamla!"
+    }`;
+  }
+
+  checkButton.style.display = "none";
+  retryButton.style.display = "inline-block";
+});
+
+retryButton.addEventListener("click", showQuiz);
+
+showQuiz();
+</script>
+
+</section>
+
 <section id="darslar" class="lessons">
   <h2>📚 JURIO darslari</h2>
   <p>Huquqlaringni Aqlli boyo‘g‘li bilan o‘rgan!</p>
