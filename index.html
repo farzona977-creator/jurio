@@ -1,123 +1,204 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JURIO — Huquqlarni o‘rganish sarguzashti</title>
+<title>JURIO — Huquqlaringni bil. Kelajagingni yarat!</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Arial,sans-serif;
   background:#08152e;
   color:white;
-  min-height:100vh;
+  line-height:1.6;
 }
 header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:22px 7%;background:#0c1d3b;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 7%;
+  background:#0c1d3b;
 }
-.logo{font-size:30px;font-weight:900;color:#f5cc69;letter-spacing:2px}
-nav a{color:#e6edff;text-decoration:none;margin-left:25px;font-size:14px}
+.logo{
+  font-size:30px;
+  font-weight:900;
+  color:#f5c669;
+  letter-spacing:2px;
+}
+nav a{
+  color:#e6edff;
+  text-decoration:none;
+  margin-left:22px;
+  font-size:15px;
+}
 .hero{
-  min-height:580px;padding:75px 8%;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:35px;flex-wrap:wrap;
-  background:radial-gradient(circle at 75% 40%,#23477b,#0b1935 55%);
+  padding:75px 7% 45px;
+  background:linear-gradient(120deg,#0c1d3b,#183d70);
 }
-.content{max-width:560px}
-.tag{
-  color:#f5cc69;font-weight:bold;letter-spacing:2px;
-  margin-bottom:22px;font-size:13px
+.hero small{
+  color:#f5c669;
+  letter-spacing:3px;
+  font-weight:bold;
 }
-h1{font-size:clamp(38px,6vw,64px);line-height:1.12;margin-bottom:22px}
-h1 span{color:#f5cc69}
-.description{font-size:18px;line-height:1.7;color:#d2def5;margin-bottom:30px}
-.button{
-  display:inline-block;background:linear-gradient(135deg,#ffe49b,#d7a83e);
-  color:#102344;text-decoration:none;padding:16px 27px;
-  border-radius:13px;font-weight:bold;
-  box-shadow:0 8px 25px #d7a83e33;
+.hero h1{
+  font-size:42px;
+  line-height:1.2;
+  margin:22px 0;
+  max-width:650px;
+}
+.hero h1 span{color:#f5c669}
+.hero p{
+  color:#cbd7ee;
+  font-size:18px;
+  max-width:650px;
+  margin-bottom:28px;
+}
+.btn{
+  display:inline-block;
+  background:linear-gradient(90deg,#ffe39a,#e5ad36);
+  color:#102344;
+  padding:15px 27px;
+  border-radius:13px;
+  text-decoration:none;
+  font-weight:bold;
+}
+section{
+  padding:55px 7%;
+}
+.section-title{
+  text-align:center;
+  font-size:30px;
+  margin-bottom:32px;
+}
+.section-title span{color:#f5c669}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
+}
+.card{
+  background:#142b50;
+  border:1px solid #294a77;
+  border-radius:20px;
+  padding:27px;
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#f5c669;
+}
+.icon{font-size:38px;margin-bottom:14px}
+.card h3{
+  color:#f5c669;
+  font-size:21px;
+  margin-bottom:10px;
+}
+.card p{color:#cbd7ee;margin-bottom:18px}
+.card a{
+  color:#f5c669;
+  text-decoration:none;
+  font-weight:bold;
 }
 .owl{
-  width:260px;height:260px;border-radius:50%;
-  background:linear-gradient(145deg,#f7d98a,#b98229);
-  display:flex;align-items:center;justify-content:center;
-  font-size:145px;
-  box-shadow:0 20px 60px #0008, inset -12px -12px 25px #8b5d1d55;
-  margin:auto;
+  text-align:center;
+  background:#102344;
+  padding:45px 7%;
 }
-.features{
-  padding:55px 8%;background:#0c1d3b;
+.owl .bird{font-size:75px}
+.owl h2{color:#f5c669;margin:12px}
+footer{
+  text-align:center;
+  padding:25px;
+  color:#9eb0d0;
+  background:#061126;
 }
-.features h2{text-align:center;font-size:30px;margin-bottom:35px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
-.card{
-  background:#142b50;border:1px solid #29466d;
-  padding:25px;border-radius:18px;
-}
-.card .icon{font-size:35px;margin-bottom:15px}
-.card h3{color:#f5cc69;margin-bottom:10px}
-.card p{color:#c7d5ed;line-height:1.6;font-size:14px}
-footer{text-align:center;padding:25px;color:#9eafd0;font-size:13px}
 @media(max-width:600px){
-  header{padding:18px 5%}
-  nav a{margin-left:10px;font-size:12px}
-  .hero{text-align:center;padding:55px 6%}
-  .owl{width:210px;height:210px;font-size:115px}
+  header{padding:18px 5%;flex-wrap:wrap;gap:12px}
+  nav a{margin-left:10px;font-size:13px}
+  .hero{padding:55px 6%}
+  .hero h1{font-size:34px}
+  section{padding:42px 6%}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">JURIO.</div>
+  <div class="logo">
+  <span class="logo-owl">🦉</span>
+  <span>JURIO</span>
+</div>
   <nav>
-    <a href="#features">Darslar</a>
-    <a href="#about">Biz haqimizda</a>
+    <a href="#darslar">Darslar</a>
+    <a href="#bolimlar">Bo‘limlar</a>
+    <a href="#otaona">Ota-onalar</a>
   </nav>
 </header>
 
 <main>
-<section class="hero" id="about">
-  <div class="content">
-    <div class="tag">SMART LEGAL EDUCATION FOR CHILDREN</div>
-    <h1>Huquqlaringni bil.<br><span>Kelajagingni yarat!</span></h1>
-    <p class="description">
-      JURIO — bolalar uchun huquqiy bilimlarni
-      3D multfilmlar, qiziqarli voqealar va interaktiv
-      topshiriqlar orqali o‘rgatuvchi zamonaviy platforma.
-    </p>
-    <a class="button" href="#features">Sarguzashtni boshlash →</a>
-  </div>
-  <div class="owl" aria-label="JURIO boyo‘g‘li">🦉</div>
-</section>
 
-<section class="features" id="features">
-  <h2>JURIO olamida seni nimalar kutmoqda?</h2>
+<div class="hero">
+  <small>SMART LEGAL EDUCATION FOR CHILDREN</small>
+  <h1>Huquqlaringni bil.<br><span>Kelajagingni yarat!</span></h1>
+  <p>
+    JURIO — bolalar uchun huquqiy bilimlarni
+    3D multfilmlar, qiziqarli voqealar va interaktiv
+    topshiriqlar orqali o‘rgatuvchi zamonaviy platforma.
+  </p>
+  <a class="btn" href="#bolimlar">Sarguzashtni boshlash →</a>
+</div>
+
+<section id="bolimlar">
+  <h2 class="section-title">JURIO olamida seni <span>nimalar kutmoqda?</span></h2>
+
   <div class="cards">
-    <div class="card">
+
+    <div class="card" id="darslar">
       <div class="icon">🎬</div>
-      <h3>3D multfilmlar</h3>
-      <p>Huquqiy voqealarni qahramonlar bilan tomosha qil va tushun.</p>
+      <h3>Darslar</h3>
+      <p>Huquqiy bilimlarni 3D multfilmlar orqali qiziqarli tarzda o‘rgan.</p>
+      <a href="#darslar">Darslarni ko‘rish →</a>
     </div>
-    <div class="card">
+
+    <div class="card" id="sarguzashtlar">
       <div class="icon">🎮</div>
-      <h3>Interaktiv vaziyatlar</h3>
-      <p>Turli vaziyatlarda qaror qabul qilib, bilimlaringni sinab ko‘r.</p>
+      <h3>Sarguzashtlar</h3>
+      <p>Turli hayotiy vaziyatlarda qaror qabul qil va o‘z tanlovingni sinab ko‘r.</p>
+      <a href="#sarguzashtlar">Boshlash →</a>
     </div>
-    <div class="card">
+
+    <div class="card" id="bilim">
       <div class="icon">🧠</div>
       <h3>Bilim sinovi</h3>
-      <p>O‘rganganlaringni qiziqarli savollar orqali tekshir.</p>
+      <p>Testlar va viktorinalar orqali o‘rgangan bilimlaringni tekshir.</p>
+      <a href="#bilim">Sinovni ko‘rish →</a>
     </div>
-    <div class="card">
-      <div class="icon">🦉</div>
-      <h3>Aqlli boyo‘g‘li</h3>
-      <p>JURIO qahramoni senga huquqlaringni tushunishga yordam beradi.</p>
+
+    <div class="card" id="natijalar">
+      <div class="icon">🏆</div>
+      <h3>Mening natijalarim</h3>
+      <p>O‘quv jarayoningni kuzat va yangi yutuqlarga erish.</p>
+      <a href="#natijalar">Natijalarim →</a>
     </div>
+
+    <div class="card" id="otaona">
+      <div class="icon">👨‍👩‍👧</div>
+      <h3>Ota-onalar bo‘limi</h3>
+      <p>Farzandingizning ta’lim jarayoni va o‘zlashtirish natijalari haqida ma’lumot oling.</p>
+      <a href="#otaona">Batafsil →</a>
+    </div>
+
   </div>
 </section>
+
+<div class="owl">
+  <div class="bird">🦉</div>
+  <h2>Aqlli boyo‘g‘li bilan o‘rgan!</h2>
+  <p>Har bir yangi bilim — xavfsiz va ongli kelajak sari qadam.</p>
+</div>
+
 </main>
 
 <footer>
